@@ -1,4 +1,4 @@
-package ivaniuminov.com.remindme;
+package ivaniuminov.com.remindme.fragment;
 
 
 import android.os.AsyncTask;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.concurrent.TimeUnit;
+
+import ivaniuminov.com.remindme.R;
 
 
 /**
@@ -38,6 +40,7 @@ public class SplashFragment extends Fragment {
         protected Void doInBackground(Void... params) {
             try{
                 TimeUnit.SECONDS.sleep(2);
+                if (getActivity() != null)
                 getActivity().getFragmentManager().popBackStack();
             } catch(InterruptedException e){
                 e.printStackTrace();
