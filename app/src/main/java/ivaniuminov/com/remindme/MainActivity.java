@@ -15,7 +15,10 @@ import android.widget.Toast;
 
 import ivaniuminov.com.remindme.adapter.TabAdapter;
 import ivaniuminov.com.remindme.dialog.AddingTaskDialogFragment;
+import ivaniuminov.com.remindme.fragment.CurrentTaskFragment;
+import ivaniuminov.com.remindme.fragment.DoneTaskFragment;
 import ivaniuminov.com.remindme.fragment.SplashFragment;
+import ivaniuminov.com.remindme.model.ModelTask;
 
 
 public class MainActivity extends AppCompatActivity implements AddingTaskDialogFragment.AddingTaskListener{
@@ -23,6 +26,11 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
     private static final int LAYOUT = R.layout.main;
     FragmentManager fragmentManager;
     PreferenceHelper preferenceHelper;
+
+    TabAdapter tabAdapter;
+
+    CurrentTaskFragment currentTaskFragment;
+    DoneTaskFragment doneTaskFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getText(R.string.done_task)));
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        TabAdapter tabAdapter = new TabAdapter(fragmentManager, 2);
+        tabAdapter = new TabAdapter(fragmentManager, 2);
 
         viewPager.setAdapter(tabAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -105,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
             }
         });
 
+        currentTaskFragment = (CurrentTaskFragment) tabAdapter.getItem(TabAdapter.CURRENT_TASK_FRAGMENT_POSITION);
+        doneTaskFragment = (DoneTaskFragment) tabAdapter.getItem(TabAdapter.DONE_TASK_FRAGMENT_POSITION);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,8 +127,9 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
     }
 
     @Override
-    public void onTaskAdded() {
-        Toast.makeText(this, "Task added", Toast.LENGTH_LONG).show();
+    public void onTaskAdded(ModelTask newTask) {
+        currentTaskFragment.addTask(newTask);
+
     }
 
     @Override
