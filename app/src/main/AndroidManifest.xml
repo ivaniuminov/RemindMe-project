@@ -9,7 +9,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_label">
+            android:label="@string/app_label"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
