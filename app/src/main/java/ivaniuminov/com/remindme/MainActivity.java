@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import ivaniuminov.com.remindme.adapter.TabAdapter;
+import ivaniuminov.com.remindme.database.DBHelper;
 import ivaniuminov.com.remindme.dialog.AddingTaskDialogFragment;
 import ivaniuminov.com.remindme.fragment.CurrentTaskFragment;
 import ivaniuminov.com.remindme.fragment.DoneTaskFragment;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
     TaskFragment currentTaskFragment;
     TaskFragment doneTaskFragment;
 
+    public DBHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
 
         preferenceHelper = PreferenceHelper.getInstance();
         preferenceHelper.init(this);
+
+        dbHelper = new DBHelper(getApplicationContext());
 
         fragmentManager = getFragmentManager();
 
@@ -130,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
 
     @Override
     public void onTaskAdded(ModelTask newTask) {
-        currentTaskFragment.addTask(newTask);
+        currentTaskFragment.addTask(newTask, true);
 
     }
 
@@ -141,11 +146,11 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
 
     @Override
     public void onTaskDone(ModelTask task) {
-        doneTaskFragment.addTask(task);
+        doneTaskFragment.addTask(task, false);
     }
 
     @Override
     public void onTaskRestore(ModelTask task) {
-        currentTaskFragment.addTask(task);
+        currentTaskFragment.addTask(task, false);
     }
 }
