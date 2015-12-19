@@ -29,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper{
             + TASK_STATUS_COLUMN + " INTEGER, " + TASK_TIME_STAMP_COLUMN + " LONG);";
 
     public static final String SELECTION_STATUS = DBHelper.TASK_STATUS_COLUMN + " = ?";
+    public static final String SELECTION_TiME_STAMP = TASK_TIME_STAMP_COLUMN + " = ?";
 
     private DBQueryManager queryManager;
     private DBUpdateManager updateManager;
@@ -50,7 +51,7 @@ public class DBHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public void saveTasks(ModelTask task){
+    public void saveTask(ModelTask task){
         ContentValues newValues = new ContentValues();
         newValues.put(TASK_TITLE_COLUMN, task.getTitle());
         newValues.put(TASK_DATE_COLUMN, task.getDate());
@@ -68,5 +69,9 @@ public class DBHelper extends SQLiteOpenHelper{
 
     public DBUpdateManager update(){
         return updateManager;
+    }
+
+    public void removeTask(long timeStamp){
+        getWritableDatabase().delete(TASKS_TABLE, SELECTION_TiME_STAMP, new String[]{Long.toString(timeStamp)});
     }
 }
