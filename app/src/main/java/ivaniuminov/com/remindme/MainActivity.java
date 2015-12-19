@@ -18,10 +18,12 @@ import ivaniuminov.com.remindme.dialog.AddingTaskDialogFragment;
 import ivaniuminov.com.remindme.fragment.CurrentTaskFragment;
 import ivaniuminov.com.remindme.fragment.DoneTaskFragment;
 import ivaniuminov.com.remindme.fragment.SplashFragment;
+import ivaniuminov.com.remindme.fragment.TaskFragment;
 import ivaniuminov.com.remindme.model.ModelTask;
 
 
-public class MainActivity extends AppCompatActivity implements AddingTaskDialogFragment.AddingTaskListener{
+public class MainActivity extends AppCompatActivity implements AddingTaskDialogFragment.AddingTaskListener,
+        CurrentTaskFragment.OnTaskDoneListener, DoneTaskFragment.OnTaskRestoreListener{
 
     private static final int LAYOUT = R.layout.main;
     FragmentManager fragmentManager;
@@ -29,8 +31,8 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
 
     TabAdapter tabAdapter;
 
-    CurrentTaskFragment currentTaskFragment;
-    DoneTaskFragment doneTaskFragment;
+    TaskFragment currentTaskFragment;
+    TaskFragment doneTaskFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,5 +137,15 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
     @Override
     public void onTaskAddingCancel() {
         Toast.makeText(this, "Adding task cancelled", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTaskDone(ModelTask task) {
+        doneTaskFragment.addTask(task);
+    }
+
+    @Override
+    public void onTaskRestore(ModelTask task) {
+        currentTaskFragment.addTask(task);
     }
 }
