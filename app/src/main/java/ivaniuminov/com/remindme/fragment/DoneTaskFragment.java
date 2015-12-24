@@ -27,18 +27,18 @@ public class DoneTaskFragment extends TaskFragment {
 
     OnTaskRestoreListener onTaskRestoreListener;
 
-    public interface OnTaskRestoreListener{
+    public interface OnTaskRestoreListener {
         void onTaskRestore(ModelTask task);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try{
+        try {
             onTaskRestoreListener = (OnTaskRestoreListener) activity;
-        } catch (ClassCastException e){
+        } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-            + " must implement OnTaskRestoreListener");
+                    + " must implement OnTaskRestoreListener");
         }
     }
 
@@ -67,7 +67,7 @@ public class DoneTaskFragment extends TaskFragment {
         tasks.addAll(activity.dbHelper.query().getTasks(DBHelper.SELECTION_LIKE_TITLE + " AND " + DBHelper.SELECTION_STATUS,
                 new String[]{"%" + title + "%", Integer.toString(ModelTask.STATUS_DONE)}, DBHelper.TASK_DATE_COLUMN));
 
-        for (int i=0; i<tasks.size(); i++){
+        for (int i = 0; i < tasks.size(); i++) {
             addTask(tasks.get(i), false);
         }
     }
@@ -79,13 +79,16 @@ public class DoneTaskFragment extends TaskFragment {
         tasks.addAll(activity.dbHelper.query().getTasks(DBHelper.SELECTION_STATUS,
                 new String[]{Integer.toString(ModelTask.STATUS_DONE)}, DBHelper.TASK_DATE_COLUMN));
 
-        for (int i=0; i<tasks.size(); i++){
+        for (int i = 0; i < tasks.size(); i++) {
             addTask(tasks.get(i), false);
         }
     }
 
     @Override
     public void moveTask(ModelTask task) {
+        if (task.getDate() != 0) {
+            alarmHelper.setAlarm(task);
+        }
         onTaskRestoreListener.onTaskRestore(task);
     }
 }

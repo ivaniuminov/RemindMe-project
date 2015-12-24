@@ -12,6 +12,7 @@ import android.view.View;
 import ivaniuminov.com.remindme.MainActivity;
 import ivaniuminov.com.remindme.R;
 import ivaniuminov.com.remindme.adapter.TaskAdapter;
+import ivaniuminov.com.remindme.alarm.AlarmHelper;
 import ivaniuminov.com.remindme.model.Item;
 import ivaniuminov.com.remindme.model.ModelTask;
 
@@ -23,6 +24,8 @@ public abstract class TaskFragment extends Fragment {
 
     public MainActivity activity;
 
+    public AlarmHelper alarmHelper;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -30,6 +33,8 @@ public abstract class TaskFragment extends Fragment {
         if (getActivity() != null){
             activity = (MainActivity) getActivity();
         }
+
+        alarmHelper = AlarmHelper.getInstance();
 
         addTaskFromDB();
     }
@@ -94,6 +99,7 @@ public abstract class TaskFragment extends Fragment {
                         @Override
                         public void onViewDetachedFromWindow(View v) {
                             if (isRemoved[0]) {
+                                alarmHelper.removeAlarm(timeStamp);
                                 activity.dbHelper.removeTask(timeStamp);
                             }
                         }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import ivaniuminov.com.remindme.adapter.TabAdapter;
+import ivaniuminov.com.remindme.alarm.AlarmHelper;
 import ivaniuminov.com.remindme.database.DBHelper;
 import ivaniuminov.com.remindme.dialog.AddingTaskDialogFragment;
 import ivaniuminov.com.remindme.fragment.CurrentTaskFragment;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
         preferenceHelper = PreferenceHelper.getInstance();
         preferenceHelper.init(this);
 
+        AlarmHelper.getInstance().init(getApplicationContext());
+
         dbHelper = new DBHelper(getApplicationContext());
 
         fragmentManager = getFragmentManager();
@@ -55,6 +58,18 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
         runSplash();
 
         setIU();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.activityResumed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyApplication.activityPaused();
     }
 
     @Override
