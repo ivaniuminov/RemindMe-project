@@ -18,6 +18,7 @@ import ivaniuminov.com.remindme.adapter.TabAdapter;
 import ivaniuminov.com.remindme.alarm.AlarmHelper;
 import ivaniuminov.com.remindme.database.DBHelper;
 import ivaniuminov.com.remindme.dialog.AddingTaskDialogFragment;
+import ivaniuminov.com.remindme.dialog.EditTaskDialogFragment;
 import ivaniuminov.com.remindme.fragment.CurrentTaskFragment;
 import ivaniuminov.com.remindme.fragment.DoneTaskFragment;
 import ivaniuminov.com.remindme.fragment.SplashFragment;
@@ -26,7 +27,7 @@ import ivaniuminov.com.remindme.model.ModelTask;
 
 
 public class MainActivity extends AppCompatActivity implements AddingTaskDialogFragment.AddingTaskListener,
-        CurrentTaskFragment.OnTaskDoneListener, DoneTaskFragment.OnTaskRestoreListener{
+        CurrentTaskFragment.OnTaskDoneListener, DoneTaskFragment.OnTaskRestoreListener, EditTaskDialogFragment.EditingTaskListener{
 
     private static final int LAYOUT = R.layout.main;
     FragmentManager fragmentManager;
@@ -185,5 +186,11 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
     @Override
     public void onTaskRestore(ModelTask task) {
         currentTaskFragment.addTask(task, false);
+    }
+
+    @Override
+    public void onTaskEdited(ModelTask updatedTask) {
+        currentTaskFragment.updateTask(updatedTask);
+        dbHelper.update().task(updatedTask);
     }
 }

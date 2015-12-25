@@ -21,6 +21,7 @@ public class ModelTask implements Item {
     private int status;
     private int priority;
     private long timeStamp;
+    private int dateStatus;
 
     public ModelTask(){
         this.status = -1;
@@ -107,5 +108,13 @@ public class ModelTask implements Item {
 
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public int getDateStatus() {
+        return dateStatus;
+    }
+
+    public void setDateStatus(int dateStatus) {
+        this.dateStatus = dateStatus;
     }
 }
