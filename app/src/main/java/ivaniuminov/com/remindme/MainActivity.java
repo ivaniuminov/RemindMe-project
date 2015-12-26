@@ -3,6 +3,7 @@ package ivaniuminov.com.remindme;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
 
+        Ads.showBanner(this);
+
         preferenceHelper = PreferenceHelper.getInstance();
         preferenceHelper.init(this);
 
@@ -59,6 +62,11 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
         runSplash();
 
         setIU();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+
     }
 
     @Override
@@ -115,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements AddingTaskDialogF
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getText(R.string.current_task)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getText(R.string.done_task)));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         tabAdapter = new TabAdapter(fragmentManager, 2);
